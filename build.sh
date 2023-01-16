@@ -95,20 +95,22 @@ if [ -d "$SD_PATH" ]; then
 
   echo "Downloading Gentoo Stage3"
   curl -L $GENTOO_STAGE3_URL -o stage3.tar.xz
-  tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
+  sudo tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
   rm -f stage3.tar.xz
 
   echo "Replace /etc/fstab"
-  cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
+  sudo cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
 
   echo "Copy kernel boot files"
-  cp -rf $LINUX_PATH/arch/arm/boot/* boot/
+  sudo cp -rf $LINUX_PATH/arch/arm/boot/* boot/
 
-  echo "Copy kernel image"
-  cp -f $TMP_PATH/gentoo-kernel.img boot/
+  #echo "Copy kernel image"
+  #cp -f $TMP_PATH/gentoo-kernel.img boot/
+  echo "Copy wifi firmware and some stuffs"
+  sudo cp -rf $BUILDROOT_PATH/output/target/lib/firmware $SD_PATH/lib/firmware
 
-  cd $INITIAL_PATH
   echo "Syncing"
+  cd $INITIAL_PATH
   sync
 fi
 
