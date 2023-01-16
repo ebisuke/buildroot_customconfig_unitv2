@@ -14,7 +14,7 @@ TMP_PATH=$BASE_PATH/tmp
 cd $BASE_PATH
 # make tmp path
 mkdir -p $TMP_PATH
-
+mkdir -p $OUTPUT_PATH
 GENTOO_STAGE3_URL="https://bouncer.gentoo.org/fetch/root/all/releases/arm/autobuilds/20230111T210213Z/stage3-armv7a_hardfp-openrc-20230111T210213Z.tar.xz"
 LINUX_KERNEL_GIT_URL="https://github.com/linux-chenxing/linux.git"
 LINUX_KERNEL_GIT_COMMIT="5b16308ae546df24c218e3785942e741f04ae326"
@@ -56,8 +56,15 @@ cd $BUILDROOT_UNITV2_PATH
 cp -f $INITIAL_PATH/configs/Makefile.replace $BUILDROOT_UNITV2_PATH/Makefile
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
-echo "Creating output directory"
-mkdir -p $OUTPUT_PATH
+
+
+echo "Rebuilding U-Boot"
+cd $BUILDROOT_PATH/output/build/uboot-mstar_rebase_mainline_20220409
+cp -f $INITIAL_PATH/configs/uboot.config $BUILDROOT_PATH/.config
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make
+cp -f $BUILDROOT_PATH/output/images/u-boot.img $TMP_PATH/unitv2-u-boot.img
+
 
 echo "Creating boot image"
 cd $TMP_PATH
@@ -70,7 +77,7 @@ cp -f  $INITIAL_PATH/configs/kernel.its $TMP_PATH/
 echo "Creating Flashing files"
 cd $TMP_PATH
 
-cp -f $BUILDROOT_UNITV2_PATH/outputs/unitv2-u-boot.img .
+#cp -f $BUILDROOT_UNITV2_PATH/outputs/unitv2-u-boot.img .
 cp -f $INITIAL_PATH/env.img .
 ubinize -o $OUTPUT_PATH/uImage -p 128KiB -m 2048 -s 2048 $INITIAL_PATH/configs/ubi.cfg
 
@@ -98,6 +105,7 @@ if [ -d "$SD_PATH" ]; then
   cp -f $TMP_PATH/gentoo-kernel.img boot/
 
   cd $INITIAL_PATH
+  echo "Syncing"
   sync
 fi
 
