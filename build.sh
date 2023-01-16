@@ -63,7 +63,7 @@ cd $BUILDROOT_PATH/output/build/uboot-mstar_rebase_mainline_20220409
 cp -f $INITIAL_PATH/configs/uboot.config .config
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-cp -f $BUILDROOT_PATH/output/images/u-boot.img $TMP_PATH/unitv2-u-boot.img
+cp -f u-boot.img $TMP_PATH/unitv2-u-boot.img
 
 
 echo "Creating boot image"
@@ -79,6 +79,7 @@ cd $TMP_PATH
 
 #cp -f $BUILDROOT_UNITV2_PATH/outputs/unitv2-u-boot.img .
 cp -f $INITIAL_PATH/env.img .
+rm -f $OUTPUT_PATH/uImage
 ubinize -o $OUTPUT_PATH/uImage -p 128KiB -m 2048 -s 2048 $INITIAL_PATH/configs/ubi.cfg
 
 echo "Copying ipl file"
