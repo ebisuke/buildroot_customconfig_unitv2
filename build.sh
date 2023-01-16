@@ -100,6 +100,7 @@ if [ -d "$SD_PATH" ]; then
 
   echo "Replace /etc/fstab"
   sudo cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
+  sudo cp -f $INITIAL_PATH/fs/etc/shadow etc/shadow
 
 
   echo "Copy kernel boot files"
