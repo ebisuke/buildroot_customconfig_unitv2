@@ -15,7 +15,7 @@ cd $BASE_PATH
 # make tmp path
 mkdir -p $TMP_PATH
 mkdir -p $OUTPUT_PATH
-GENTOO_STAGE3_URL="https://bouncer.gentoo.org/fetch/root/all/releases/arm/autobuilds/20230111T210213Z/stage3-armv7a_hardfp-openrc-20230111T210213Z.tar.xz"
+GENTOO_STAGE3_URL="https://bouncer.gentoo.org/fetch/root/all/releases/arm/autobuilds/20230111T210213Z/stage3-armv7a_hardfp-systemd-20230111T210213Z.tar.xz"
 LINUX_KERNEL_GIT_URL="https://github.com/linux-chenxing/linux.git"
 LINUX_KERNEL_GIT_COMMIT="27736d409431814823c4a20a1190bdacb2c42191"
 BUILDROOT_UNITV2_URL="https://github.com/fifteenhex/buildroot_unitv2.git"
@@ -100,12 +100,7 @@ if [ -d "$SD_PATH" ]; then
 
   echo "Replace /etc/fstab"
   sudo cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
-  echo "Change some settings"
-  echo 'rc_parallel="YES"' | sudo tee -a $SD_PATH/etc/rc.conf
-  echo 'unicode="YES"' | sudo tee -a $SD_PATH/etc/rc.conf
-  sudo cp -f $INITIAL_PATH/fs/etc/local.d/initialscript.start etc/local.d/initialscript.start
-  sudo chmod +x etc/local.d/initialscript.start
-  #https://www.reddit.com/r/Gentoo/comments/ivcdxl/boot_gets_stuck_on_starting_local/
+
 
   echo "Copy kernel boot files"
   sudo cp -rf $LINUX_PATH/arch/arm/boot/* boot/
