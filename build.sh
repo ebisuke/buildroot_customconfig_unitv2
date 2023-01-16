@@ -105,7 +105,7 @@ if [ -d "$SD_PATH" ]; then
   sudo cp -rf $LINUX_PATH/arch/arm/boot/* boot/
 
   #echo "Copy kernel image"
-  #cp -f $TMP_PATH/gentoo-kernel.img boot/
+  sudo cp -f $TMP_PATH/gentoo-kernel.img boot/
   echo "Copy wifi firmware and some stuffs"
   sudo cp -rf $BUILDROOT_PATH/output/target/lib/firmware $SD_PATH/lib/firmware
 
