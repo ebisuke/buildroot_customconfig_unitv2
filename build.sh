@@ -52,7 +52,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
 echo "Building Buildroot"
 cd $BUILDROOT_UNITV2_PATH
-cp -f $INITIAL_PATH/configs/Makefile.replace $BUILDROOT_UNITV2_PATH/Makefile.replace
+cp -f $INITIAL_PATH/configs/Makefile.replace $BUILDROOT_UNITV2_PATH/Makefile
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
 echo "Creating output directory"
