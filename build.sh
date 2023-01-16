@@ -22,7 +22,11 @@ BUILDROOT_UNITV2_URL="https://github.com/fifteenhex/buildroot_unitv2.git"
 BUILDROOT_UNITV2_BRANCH="34b6d9d863d496711436a30929e8d25c621c2688"
 
 read -p "Enter the path of the microSD:" SD_PATH 
-
+#check sd path
+if [ ! -d "$SD_PATH" ]; then
+	echo "Error: $SD_PATH is not a directory"
+	exit 1
+fi
 echo "Start building Gentoo Linux Environment For UnitV2 Script"
 
 echo "Building phase"
