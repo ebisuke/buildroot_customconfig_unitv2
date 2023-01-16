@@ -17,7 +17,7 @@ mkdir -p $TMP_PATH
 mkdir -p $OUTPUT_PATH
 GENTOO_STAGE3_URL="https://bouncer.gentoo.org/fetch/root/all/releases/arm/autobuilds/20230111T210213Z/stage3-armv7a_hardfp-openrc-20230111T210213Z.tar.xz"
 LINUX_KERNEL_GIT_URL="https://github.com/linux-chenxing/linux.git"
-LINUX_KERNEL_GIT_COMMIT="739891d80b57926ce1c07372bb3c2e3c5c19d27c"
+LINUX_KERNEL_GIT_COMMIT="27736d409431814823c4a20a1190bdacb2c42191"
 BUILDROOT_UNITV2_URL="https://github.com/fifteenhex/buildroot_unitv2.git"
 BUILDROOT_UNITV2_COMMIT="34b6d9d863d496711436a30929e8d25c621c2688"
 
