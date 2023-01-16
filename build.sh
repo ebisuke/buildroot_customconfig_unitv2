@@ -34,9 +34,9 @@ echo "Downloading Buildroot UnitV2"
 git clone --recursive -b $BUILDROOT_UNITV2_BRANCH $BUILDROOT_UNITV2_URL $BUILDROOT_UNITV2_PATH
 
 echo "Copying Config Files for each project"
-cp $INITIAL_PATH/configs/linux.config $LINUX_PATH/.config
-cp $INITIAL_PATH/configs/buildroot.config $BUILDROOT_PATH/.config
-cp $INITIAL_PATH/configs/uboot.config $BUILDROOT_PATH/uboot.config
+cp -f $INITIAL_PATH/configs/linux.config $LINUX_PATH/.config
+cp -f $INITIAL_PATH/configs/buildroot.config $BUILDROOT_PATH/.config
+cp -f $INITIAL_PATH/configs/uboot.config $BUILDROOT_PATH/uboot.config
 
 echo "Building Linux Kernel"
 cd $LINUX_PATH
@@ -51,15 +51,15 @@ mkdir -p $OUTPUT_PATH
 
 echo "Creating boot image"
 cd $TMP_PATH
-cp $LINUX_PATH/arch/arm/boot/zImage .
-cp $LINUX_PATH/arch/arm/boot/dts/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
+cp -f $LINUX_PATH/arch/arm/boot/zImage .
+cp -f $LINUX_PATH/arch/arm/boot/dts/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
 mkimage -f kernel.its $OUTPUT_PATH/gentoo-kernel.img
 
 echo "Creaintg Flasing files"
 cd $TMP_PATH
-cp $BUILDROOT_PATH/outputs/unitv2-ipl .
-cp $BUILDROOT_PATH/outputs/unitv2-u-boot.img .
-cp $INITIAL_PATH/env.img .
+cp -f  $BUILDROOT_PATH/outputs/unitv2-ipl .
+cp -f $BUILDROOT_PATH/outputs/unitv2-u-boot.img .
+cp -f $INITIAL_PATH/env.img .
 ubinize -o $OUTPUT_PATH/uImage -m 2048 -p 2048 $INITIAL_PATH/configs/uboot.ubinize.cfg
 
 
@@ -72,13 +72,13 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 rm  stage3-*.tar.xz
 
 echo "Replace /etc/fstab"
-cp $INITIAL_PATH/configs/fstab etc/fstab
+cp -f $INITIAL_PATH/configs/fstab etc/fstab
 
 echo "Copy kernel boot files"
-cp -r $LINUX_PATH/arch/arm/boot/* boot/
+cp -rf $LINUX_PATH/arch/arm/boot/* boot/
 
 echo "Copy kernel image"
-cp $OUTPUT_PATH/gentoo-kernel.img boot/
+cp -f $OUTPUT_PATH/gentoo-kernel.img boot/
 
 echo "Unmount SDCard"
 sudo umount $SD_PATH
