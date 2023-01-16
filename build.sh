@@ -56,16 +56,19 @@ mkdir -p $OUTPUT_PATH
 echo "Creating boot image"
 cd $TMP_PATH
 cp -f $LINUX_PATH/arch/arm/boot/zImage .
-cp -f $LINUX_PATH/arch/arm/boot/dts/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
-mkimage -f kernel.its $OUTPUT_PATH/gentoo-kernel.img
+cp -f $LINUX_PATH/arch/arm/boot/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
+mkimage -f $INITIAL_PATH/kernel.its $OUTPUT_PATH/gentoo-kernel.img
 
 echo "Creaintg Flasing files"
 cd $TMP_PATH
-cp -f  $BUILDROOT_PATH/outputs/unitv2-ipl .
+
 cp -f $BUILDROOT_PATH/outputs/unitv2-u-boot.img .
 cp -f $INITIAL_PATH/env.img .
-ubinize -o $OUTPUT_PATH/uImage -m 2048 -p 2048 $INITIAL_PATH/configs/uboot.ubinize.cfg
+ubinize -o $OUTPUT_PATH/uImage -m 2048 -p 2048 $INITIAL_PATH/configs/ubi.cfg
 
+echo "Copying ipl file"
+cd $OUTPUT_PATH
+cp -f  $BUILDROOT_PATH/outputs/unitv2-ipl .
 
 echo "Gentoo phase"
 cd $SD_PATH
@@ -73,7 +76,7 @@ cd $SD_PATH
 echo "Downloading Gentoo Stage3"
 curl -L $GENTOO_STAGE3_URL -o $SD_PATH/stage3.tar.xz
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
-rm  stage3-*.tar.xz
+rm -f stage3-*.tar.xz
 
 echo "Replace /etc/fstab"
 cp -f $INITIAL_PATH/configs/fstab etc/fstab
@@ -89,3 +92,4 @@ sudo umount $SD_PATH
 
 echo "Complete. Please write the image to the UnitV2's NAND flash via I2C."
 
+cd $INITIAL_PATH
