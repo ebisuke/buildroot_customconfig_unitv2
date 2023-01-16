@@ -33,10 +33,14 @@ echo "Building phase"
 
 echo "Downloading Linux Kernel"
 git clone --recursive $LINUX_KERNEL_GIT_URL $LINUX_PATH
+cd $LINUX_PATH
 git checkout $LINUX_KERNEL_GIT_COMMIT
+cd $BASE_PATH
 echo "Downloading Buildroot UnitV2"
 git clone --recursive -b $BUILDROOT_UNITV2_BRANCH $BUILDROOT_UNITV2_URL $BUILDROOT_UNITV2_PATH
+cd $BUILDROOT_UNITV2_PATH
 git checkout $BUILDROOT_UNITV2_COMMIT
+cd $BASE_PATH
 echo "Copying Config Files for each project"
 cp -f $INITIAL_PATH/configs/linux.config $LINUX_PATH/.config
 cp -f $INITIAL_PATH/configs/buildroot.config $BUILDROOT_PATH/.config
