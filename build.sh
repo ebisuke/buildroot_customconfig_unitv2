@@ -17,9 +17,9 @@ mkdir -p $TMP_PATH
 
 GENTOO_STAGE3_URL="https://bouncer.gentoo.org/fetch/root/all/releases/arm/autobuilds/20230111T210213Z/stage3-armv7a_hardfp-openrc-20230111T210213Z.tar.xz"
 LINUX_KERNEL_GIT_URL="https://github.com/linux-chenxing/linux.git"
-LINUX_KERNEL_GIT_BRANCH="mstar_v6_1_rebase"
+LINUX_KERNEL_GIT_COMMIT="5b16308ae546df24c218e3785942e741f04ae326"
 BUILDROOT_UNITV2_URL="https://github.com/fifteenhex/buildroot_unitv2.git"
-BUILDROOT_UNITV2_BRANCH="34b6d9d863d496711436a30929e8d25c621c2688"
+BUILDROOT_UNITV2_COMMIT="34b6d9d863d496711436a30929e8d25c621c2688"
 
 read -p "Enter the path of the microSD:" SD_PATH 
 #check sd path
@@ -32,11 +32,11 @@ echo "Start building Gentoo Linux Environment For UnitV2 Script"
 echo "Building phase"
 
 echo "Downloading Linux Kernel"
-git clone --recursive -b $LINUX_KERNEL_GIT_BRANCH $LINUX_KERNEL_GIT_URL $LINUX_PATH
-
+git clone --recursive $LINUX_KERNEL_GIT_URL $LINUX_PATH
+git checkout $LINUX_KERNEL_GIT_COMMIT
 echo "Downloading Buildroot UnitV2"
 git clone --recursive -b $BUILDROOT_UNITV2_BRANCH $BUILDROOT_UNITV2_URL $BUILDROOT_UNITV2_PATH
-
+git checkout $BUILDROOT_UNITV2_COMMIT
 echo "Copying Config Files for each project"
 cp -f $INITIAL_PATH/configs/linux.config $LINUX_PATH/.config
 cp -f $INITIAL_PATH/configs/buildroot.config $BUILDROOT_PATH/.config
