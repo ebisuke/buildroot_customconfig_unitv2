@@ -48,11 +48,11 @@ cp -f $INITIAL_PATH/configs/uboot.config $BUILDROOT_PATH/uboot.config
 
 echo "Building Linux Kernel"
 cd $LINUX_PATH
-make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- $MAKE_FLAGS
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
 echo "Building Buildroot"
 cd $BUILDROOT_UNITV2_PATH
-make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- $MAKE_FLAGS
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
 echo "Creating output directory"
 mkdir -p $OUTPUT_PATH
@@ -65,7 +65,7 @@ cp -f $INITIAL_PATH/configs/kernel.its .
 
 mkimage -f ./kernel.its ./gentoo-kernel.img
 cp -f  $INITIAL_PATH/configs/kernel.its $TMP_PATH/
-echo "Creaintg Flasing files"
+echo "Creating Flashing files"
 cd $TMP_PATH
 
 cp -f $BUILDROOT_UNITV2_PATH/outputs/unitv2-u-boot.img .
