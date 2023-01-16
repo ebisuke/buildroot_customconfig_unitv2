@@ -6,4 +6,4 @@ cd /etc/init.d
 for n in `seq 1 6`; do ln -s agetty agetty.tty$n; rc-config add agetty.tty$n default; done
 
 cd $INITIAL_PATH
-mv /etc/rc.local /etc/rc.local.used
+mv /etc/local.d/initialscript.start /etc/initialscript.start.used

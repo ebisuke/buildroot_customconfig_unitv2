@@ -104,6 +104,7 @@ if [ -d "$SD_PATH" ]; then
   echo 'rc_parallel="YES"' | sudo tee -a $SD_PATH/etc/rc.conf
   echo 'unicode="YES"' | sudo tee -a $SD_PATH/etc/rc.conf
   sudo cp -f $INITIAL_PATH/fs/etc/rc.local etc/rc.local
+  sudo chmod +x etc/rc.local
   #https://www.reddit.com/r/Gentoo/comments/ivcdxl/boot_gets_stuck_on_starting_local/
 
   echo "Copy kernel boot files"
