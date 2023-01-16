@@ -57,8 +57,10 @@ echo "Creating boot image"
 cd $TMP_PATH
 cp -f $LINUX_PATH/arch/arm/boot/zImage .
 cp -f $LINUX_PATH/arch/arm/boot/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
-mkimage -f $INITIAL_PATH/configs/kernel.its $TMP_PATH/gentoo-kernel.img
-cp f-  $INITIAL_PATH/configs/kernel.its $TMP_PATH/
+cp -f $INITIAL_PATH/configs/kernel.its .
+
+mkimage -f ./kernel.its ./gentoo-kernel.img
+cp -f  $INITIAL_PATH/configs/kernel.its $TMP_PATH/
 echo "Creaintg Flasing files"
 cd $TMP_PATH
 
