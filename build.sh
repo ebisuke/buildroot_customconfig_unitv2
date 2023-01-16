@@ -94,9 +94,9 @@ if [ -d "$SD_PATH" ]; then
   cd $SD_PATH
 
   echo "Downloading Gentoo Stage3"
-  curl -L $GENTOO_STAGE3_URL -o stage3.tar.xz
+  sudo curl -L $GENTOO_STAGE3_URL -o stage3.tar.xz
   sudo tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
-  rm -f stage3.tar.xz
+  sudo rm -f stage3.tar.xz
 
   echo "Replace /etc/fstab"
   sudo cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
