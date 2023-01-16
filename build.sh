@@ -25,7 +25,8 @@ read -p "Enter the path of the microSD:" SD_PATH
 #check sd path
 if [ ! -d "$SD_PATH" ]; then
 	echo "Error: $SD_PATH is not a directory"
-	exit 1
+	echo "Disable SD Feature"
+
 fi
 echo "Start building Gentoo Linux Environment For UnitV2 Script"
 
@@ -77,26 +78,28 @@ echo "Copying ipl file"
 cd $OUTPUT_PATH
 cp -f  $BUILDROOT_UNITV2_PATH/outputs/unitv2-ipl .
 
-echo "Gentoo phase"
-cd $SD_PATH
+if [ -d "$SD_PATH" ]; then
 
-echo "Downloading Gentoo Stage3"
-curl -L $GENTOO_STAGE3_URL -o stage3.tar.xz
-tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
-rm -f stage3.tar.xz
+  echo "Gentoo phase"
+  cd $SD_PATH
 
-echo "Replace /etc/fstab"
-cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
+  echo "Downloading Gentoo Stage3"
+  curl -L $GENTOO_STAGE3_URL -o stage3.tar.xz
+  tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
+  rm -f stage3.tar.xz
 
-echo "Copy kernel boot files"
-cp -rf $LINUX_PATH/arch/arm/boot/* boot/
+  echo "Replace /etc/fstab"
+  cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
 
-echo "Copy kernel image"
-cp -f $TMP_PATH/gentoo-kernel.img boot/
+  echo "Copy kernel boot files"
+  cp -rf $LINUX_PATH/arch/arm/boot/* boot/
 
-cd $INITIAL_PATH
-sync
+  echo "Copy kernel image"
+  cp -f $TMP_PATH/gentoo-kernel.img boot/
 
+  cd $INITIAL_PATH
+  sync
+fi
 
 echo "Complete. Please write the image to the UnitV2's NAND flash via I2C."
 
