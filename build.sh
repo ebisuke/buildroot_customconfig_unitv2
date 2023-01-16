@@ -57,14 +57,16 @@ echo "Creating boot image"
 cd $TMP_PATH
 cp -f $LINUX_PATH/arch/arm/boot/zImage .
 cp -f $LINUX_PATH/arch/arm/boot/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
-mkimage -f $INITIAL_PATH/configs/kernel.its $TMP_PATH/gentoo-kernel.img
-cp f-  $INITIAL_PATH/configs/kernel.its $TMP_PATH/
+cp -f $INITIAL_PATH/configs/kernel.its .
+
+mkimage -f ./kernel.its ./gentoo-kernel.img
+cp -f  $INITIAL_PATH/configs/kernel.its $TMP_PATH/
 echo "Creaintg Flasing files"
 cd $TMP_PATH
 
 cp -f $BUILDROOT_UNITV2_PATH/outputs/unitv2-u-boot.img .
 cp -f $INITIAL_PATH/env.img .
-ubinize -o $OUTPUT_PATH/uImage -m 2048 -p 2048 $INITIAL_PATH/configs/ubi.cfg
+ubinize -o $OUTPUT_PATH/uImage -p 128KiB -m 2048 -s 2048 $INITIAL_PATH/configs/ubi.cfg
 
 echo "Copying ipl file"
 cd $OUTPUT_PATH
