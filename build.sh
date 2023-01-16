@@ -90,8 +90,9 @@ echo "Copy kernel image"
 cp -f $TMP_PATH/gentoo-kernel.img boot/
 
 echo "Unmount SDCard"
+cd $INITIAL_PATH
+sync
 sudo umount $SD_PATH
 
 echo "Complete. Please write the image to the UnitV2's NAND flash via I2C."
 
-cd $INITIAL_PATH
