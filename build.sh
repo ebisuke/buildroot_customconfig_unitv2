@@ -63,6 +63,7 @@ cd $BUILDROOT_PATH/output/build/uboot-mstar_rebase_mainline_20220409
 cp -f $INITIAL_PATH/configs/uboot.config .config
 cp -f $INITIAL_PATH/configs/env.txt env.txt
 cp -f $INITIAL_PATH/configs/unitv2.h include/configs/unitv2.h
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 cp -f u-boot.img $TMP_PATH/unitv2-u-boot.img
 
