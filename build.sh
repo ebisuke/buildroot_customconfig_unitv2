@@ -80,9 +80,9 @@ echo "Gentoo phase"
 cd $SD_PATH
 
 echo "Downloading Gentoo Stage3"
-curl -L $GENTOO_STAGE3_URL -o $SD_PATH/stage3.tar.xz
-tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
-rm -f stage3-*.tar.xz
+curl -L $GENTOO_STAGE3_URL -o stage3.tar.xz
+tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
+rm -f stage3.tar.xz
 
 echo "Replace /etc/fstab"
 cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
@@ -93,10 +93,9 @@ cp -rf $LINUX_PATH/arch/arm/boot/* boot/
 echo "Copy kernel image"
 cp -f $TMP_PATH/gentoo-kernel.img boot/
 
-echo "Unmount SDCard"
 cd $INITIAL_PATH
 sync
-sudo umount $SD_PATH
+
 
 echo "Complete. Please write the image to the UnitV2's NAND flash via I2C."
 
