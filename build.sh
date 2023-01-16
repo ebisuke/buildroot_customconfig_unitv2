@@ -103,9 +103,8 @@ if [ -d "$SD_PATH" ]; then
   echo "Change some settings"
   echo 'rc_parallel="YES"' | sudo tee -a $SD_PATH/etc/rc.conf
   echo 'unicode="YES"' | sudo tee -a $SD_PATH/etc/rc.conf
+  sudo cp -f $INITIAL_PATH/fs/etc/rc.local etc/rc.local
   #https://www.reddit.com/r/Gentoo/comments/ivcdxl/boot_gets_stuck_on_starting_local/
-  cd $SD_PATH/etc/init.d
-  for n in `seq 1 6`; do ln -s agetty agetty.tty$n; rc-config add agetty.tty$n default; done
 
   echo "Copy kernel boot files"
   sudo cp -rf $LINUX_PATH/arch/arm/boot/* boot/
