@@ -60,7 +60,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
 echo "Rebuilding U-Boot"
 cd $BUILDROOT_PATH/output/build/uboot-mstar_rebase_mainline_20220409
-cp -f $INITIAL_PATH/configs/uboot.config $BUILDROOT_PATH/.config
+cp -f $INITIAL_PATH/configs/uboot.config /.config
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 cp -f $BUILDROOT_PATH/output/images/u-boot.img $TMP_PATH/unitv2-u-boot.img
