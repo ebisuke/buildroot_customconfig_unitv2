@@ -57,18 +57,18 @@ echo "Creating boot image"
 cd $TMP_PATH
 cp -f $LINUX_PATH/arch/arm/boot/zImage .
 cp -f $LINUX_PATH/arch/arm/boot/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
-mkimage -f $INITIAL_PATH/kernel.its $OUTPUT_PATH/gentoo-kernel.img
-
+mkimage -f $INITIAL_PATH/configs/kernel.its $TMP_PATH/gentoo-kernel.img
+cp f-  $INITIAL_PATH/configs/kernel.its $TMP_PATH/
 echo "Creaintg Flasing files"
 cd $TMP_PATH
 
-cp -f $BUILDROOT_PATH/outputs/unitv2-u-boot.img .
+cp -f $BUILDROOT_UNITV2_PATH/outputs/unitv2-u-boot.img .
 cp -f $INITIAL_PATH/env.img .
 ubinize -o $OUTPUT_PATH/uImage -m 2048 -p 2048 $INITIAL_PATH/configs/ubi.cfg
 
 echo "Copying ipl file"
 cd $OUTPUT_PATH
-cp -f  $BUILDROOT_PATH/outputs/unitv2-ipl .
+cp -f  $BUILDROOT_UNITV2_PATH/outputs/unitv2-ipl .
 
 echo "Gentoo phase"
 cd $SD_PATH
@@ -79,13 +79,13 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 rm -f stage3-*.tar.xz
 
 echo "Replace /etc/fstab"
-cp -f $INITIAL_PATH/configs/fstab etc/fstab
+cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
 
 echo "Copy kernel boot files"
 cp -rf $LINUX_PATH/arch/arm/boot/* boot/
 
 echo "Copy kernel image"
-cp -f $OUTPUT_PATH/gentoo-kernel.img boot/
+cp -f $TMP_PATH/gentoo-kernel.img boot/
 
 echo "Unmount SDCard"
 sudo umount $SD_PATH
