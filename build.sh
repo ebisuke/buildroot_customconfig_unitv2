@@ -1,0 +1,87 @@
+#!/bin/bash
+echo "Building Gentoo Linux Environment For UnitV2 Script"
+
+MAKE_FLAGS="-j7"
+INITIAL_PATH=$(pwd)
+BASE_PATH=$(pwd)/../
+LINUX_PATH=$BASE_PATH/linux
+BUILDROOT_UNITV2_PATH=$BASE_PATH/buildroot_unitv2
+BUILDROOT_PATH=$BUILDROOT_UNITV2_PATH/buildroot
+UBOOT_PATH=$BUILDROOT_PATH/
+OUTPUT_PATH=$BASE_PATH/output
+TMP_PATH=$BASE_PATH/tmp
+
+cd $BASE_PATH
+# make tmp path
+mkdir -p $TMP_PATH
+
+GENTOO_STAGE3_URL="https://bouncer.gentoo.org/fetch/root/all/releases/arm/autobuilds/20230111T210213Z/stage3-armv7a_hardfp-openrc-20230111T210213Z.tar.xz"
+LINUX_KERNEL_GIT_URL="https://github.com/linux-chenxing/linux.git"
+LINUX_KERNEL_GIT_BRANCH="mstar_v6_1_rebase"
+BUILDROOT_UNITV2_URL="https://github.com/fifteenhex/buildroot_unitv2.git"
+BUILDROOT_UNITV2_BRANCH="34b6d9d863d496711436a30929e8d25c621c2688"
+
+read -p "Enter the path of the microSD:" SD_PATH 
+
+echo "Start building Gentoo Linux Environment For UnitV2 Script"
+
+echo "Building phase"
+
+echo "Downloading Linux Kernel"
+git clone --recursive -b $LINUX_KERNEL_GIT_BRANCH $LINUX_KERNEL_GIT_URL $LINUX_PATH
+
+echo "Downloading Buildroot UnitV2"
+git clone --recursive -b $BUILDROOT_UNITV2_BRANCH $BUILDROOT_UNITV2_URL $BUILDROOT_UNITV2_PATH
+
+echo "Copying Config Files for each project"
+cp $INITIAL_PATH/configs/linux.config $LINUX_PATH/.config
+cp $INITIAL_PATH/configs/buildroot.config $BUILDROOT_PATH/.config
+cp $INITIAL_PATH/configs/uboot.config $BUILDROOT_PATH/uboot.config
+
+echo "Building Linux Kernel"
+cd $LINUX_PATH
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- $MAKE_FLAGS
+
+echo "Building Buildroot"
+cd $BUILDROOT_PATH
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- $MAKE_FLAGS
+
+echo "Creating output directory"
+mkdir -p $OUTPUT_PATH
+
+echo "Creating boot image"
+cd $TMP_PATH
+cp $LINUX_PATH/arch/arm/boot/zImage .
+cp $LINUX_PATH/arch/arm/boot/dts/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
+mkimage -f kernel.its $OUTPUT_PATH/gentoo-kernel.img
+
+echo "Creaintg Flasing files"
+cd $TMP_PATH
+cp $BUILDROOT_PATH/outputs/unitv2-ipl .
+cp $BUILDROOT_PATH/outputs/unitv2-u-boot.img .
+cp $INITIAL_PATH/env.img .
+ubinize -o $OUTPUT_PATH/uImage -m 2048 -p 2048 $INITIAL_PATH/configs/uboot.ubinize.cfg
+
+
+echo "Gentoo phase"
+cd $SD_PATH
+
+echo "Downloading Gentoo Stage3"
+curl -L $GENTOO_STAGE3_URL -o $SD_PATH/stage3.tar.xz
+tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+rm  stage3-*.tar.xz
+
+echo "Replace /etc/fstab"
+cp $INITIAL_PATH/configs/fstab etc/fstab
+
+echo "Copy kernel boot files"
+cp -r $LINUX_PATH/arch/arm/boot/* boot/
+
+echo "Copy kernel image"
+cp $OUTPUT_PATH/gentoo-kernel.img boot/
+
+echo "Unmount SDCard"
+sudo umount $SD_PATH
+
+echo "Complete. Please write the image to the UnitV2's NAND flash via I2C."
+
