@@ -113,11 +113,11 @@ if [ -d "$SD_PATH" ]; then
   cd $SD_PATH
 
   echo "Copy kernel boot files"
-  sudo cp -rf $LINUX_PATH/arch/arm/boot/* boot/
+  sudo cp -rf $LINUX_PATH/arch/arm/boot/. boot/
 
   echo "Copy kernel source files"
   sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/build
-  sudo cp -arf $LINUX_PATH $SD_PATH/lib/modules/$LINUX_VERSION/build
+  sudo cp -arf $LINUX_PATH/. $SD_PATH/lib/modules/$LINUX_VERSION/build/
 
   echo "Copy kernel image"
   sudo cp -f $TMP_PATH/gentoo-kernel.img boot/
