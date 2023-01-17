@@ -106,7 +106,7 @@ if [ -d "$SD_PATH" ]; then
 
   echo "git clone supplimental drivers source"
   sudo mkdir -p $SD_PATH/usr/src
-  cd $SD_PATHsh /usr/src
+  cd $SD_PATH/usr/src
   sudo git clone --recursive $RTL8188FU_GIT_URL $SD_PATH/usr/src/rtl8188fu_linux
   cd $SD_PATH/usr/src/rtl8188fu_linux
   sudo git checkout $RTL8188FU_GIT_COMMIT
@@ -117,7 +117,7 @@ if [ -d "$SD_PATH" ]; then
 
   echo "Copy kernel source files"
   sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/build
-  sudo cp -rf $LINUX_PATH/* $SD_PATH/lib/modules/$LINUX_VERSION/build/
+  sudo cp -arf $LINUX_PATH $SD_PATH/lib/modules/$LINUX_VERSION/build
 
   echo "Copy kernel image"
   sudo cp -f $TMP_PATH/gentoo-kernel.img boot/
