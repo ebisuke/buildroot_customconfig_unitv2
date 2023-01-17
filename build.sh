@@ -148,7 +148,6 @@ if [ -d "$SD_PATH" ]; then
   sudo mkdir -p $SD_PATH/usr/share/extra
   cd $SD_PATH/usr/share/extra
   sudo git clone --recursive https://github.com/NetworkConfiguration/dhcpcd
-  sudo wget https://w1.fi/releases/wpa_supplicant-2.10.tar.gz
   sudo
   echo "Syncing"
   cd $INITIAL_PATH
