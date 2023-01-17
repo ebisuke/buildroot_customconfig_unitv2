@@ -23,6 +23,8 @@ BUILDROOT_UNITV2_URL="https://github.com/fifteenhex/buildroot_unitv2.git"
 BUILDROOT_UNITV2_COMMIT="34b6d9d863d496711436a30929e8d25c621c2688"
 RTL8188FU_GIT_URL="https://github.com/kikuingithub/rtl8188fu_linux.git"
 RTL8188FU_GIT_COMMIT="dfe0a5090a1ec593ba558b589f092cce29e6256f"
+RTL8188FU_FILENAME="rtl8188fu.ko"
+
 read -p "Enter the path of the microSD:" SD_PATH 
 #check sd path
 if [ ! -d "$SD_PATH" ]; then
@@ -75,7 +77,7 @@ git clone --recursive $RTL8188FU_GIT_URL $TMP_PATH/rtl8188fu_linux
 cd $TMP_PATH/rtl8188fu_linux
 git checkout $RTL8188FU_GIT_COMMIT
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
-make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -C $LINUX_PATH M=$(pwd) modules
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- KSRC=$LINUX_PATH M=$(pwd) modules
 
 echo "Creating boot image"
 cd $TMP_PATH
@@ -121,6 +123,15 @@ if [ -d "$SD_PATH" ]; then
 
   echo "Copy kernel boot files"
   sudo cp -rf $LINUX_PATH/arch/arm/boot/. boot/
+  echo "Copy RTL8188FU driver"
+  cd $TMP_PATH/rtl8188fu_linux
+  sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/
+  sudo depmod -a -b $SD_PATH $LINUX_VERSION
+  echo "For RTL8188FU config"
+  cd %BUILDROOT_UNITV2_PATH/br2unitv2/board/m5stack/unitv2/overlay/etc/modprobe.d
+  sudo mkdir -p $SD_PATH/etc/modprobe.d
+  sudo cp -f rtl8188fu.conf $SD_PATH/etc/modprobe.d/
+  cd $SD_PATH
 
   echo "Copy kernel source files"
   sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/build
