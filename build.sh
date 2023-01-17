@@ -18,9 +18,11 @@ mkdir -p $OUTPUT_PATH
 GENTOO_STAGE3_URL="https://bouncer.gentoo.org/fetch/root/all/releases/arm/autobuilds/20230111T210213Z/stage3-armv7a_hardfp-systemd-20230111T210213Z.tar.xz"
 LINUX_KERNEL_GIT_URL="https://github.com/linux-chenxing/linux.git"
 LINUX_KERNEL_GIT_COMMIT="27736d409431814823c4a20a1190bdacb2c42191"
+LINUX_VERSION="5.18.0-rc7+"
 BUILDROOT_UNITV2_URL="https://github.com/fifteenhex/buildroot_unitv2.git"
 BUILDROOT_UNITV2_COMMIT="34b6d9d863d496711436a30929e8d25c621c2688"
-
+RTL8188FU_GIT_URL="https://github.com/kikuingithub/rtl8188fu_linux.git"
+RTL8188FU_GIT_COMMIT="dfe0a5090a1ec593ba558b589f092cce29e6256f"
 read -p "Enter the path of the microSD:" SD_PATH 
 #check sd path
 if [ ! -d "$SD_PATH" ]; then
@@ -102,11 +104,22 @@ if [ -d "$SD_PATH" ]; then
   sudo cp -f $INITIAL_PATH/fs/etc/fstab etc/fstab
   sudo cp -f $INITIAL_PATH/fs/etc/shadow etc/shadow
 
+  echo "git clone supplimental drivers source"
+  sudo mkdir -p $SD_PATH/usr/src
+  cd $SD_PATHsh /usr/src
+  sudo git clone --recursive $RTL8188FU_GIT_URL $SD_PATH/usr/src/rtl8188fu_linux
+  cd $SD_PATH/usr/src/rtl8188fu_linux
+  sudo git checkout $RTL8188FU_GIT_COMMIT
+  cd $SD_PATH
 
   echo "Copy kernel boot files"
   sudo cp -rf $LINUX_PATH/arch/arm/boot/* boot/
 
-  #echo "Copy kernel image"
+  echo "Copy kernel source files"
+  sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/build
+  sudo cp -rf $LINUX_PATH/* $SD_PATH/lib/modules/$LINUX_VERSION/build/
+
+  echo "Copy kernel image"
   sudo cp -f $TMP_PATH/gentoo-kernel.img boot/
   echo "Copy wifi firmware and some stuffs"
   sudo cp -rf $BUILDROOT_PATH/output/target/lib/firmware $SD_PATH/lib/firmware
