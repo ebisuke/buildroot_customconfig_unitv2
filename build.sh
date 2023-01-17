@@ -34,6 +34,8 @@ if [ ! -d "$SD_PATH" ]; then
 fi
 echo "Start building Gentoo Linux Environment For UnitV2 Script"
 
+echo "Install prerequisite packages"
+sudo apt-get install -y git gcc-arm-linux-gnueabihf build-essential flex bison libncurses5-dev fakeroot xz-utils bc u-boot-tools  libssl-dev libnl-genl-3-dev libreadline-dev libncurses5-dev libdbus-1-dev
 echo "Building phase"
 
 echo "Downloading Linux Kernel"
@@ -142,6 +144,12 @@ if [ -d "$SD_PATH" ]; then
   echo "Copy wifi firmware and some stuffs"
   sudo cp -rf $BUILDROOT_PATH/output/target/lib/firmware $SD_PATH/lib/firmware
 
+  echo "Copy Extra files"
+  sudo mkdir -p $SD_PATH/usr/share/extra
+  cd $SD_PATH/usr/share/extra
+  sudo git clone --recursive https://github.com/NetworkConfiguration/dhcpcd
+  sudo wget https://w1.fi/releases/wpa_supplicant-2.10.tar.gz
+  sudo
   echo "Syncing"
   cd $INITIAL_PATH
   sync
