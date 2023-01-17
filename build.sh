@@ -69,6 +69,13 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 cp -f u-boot.img $TMP_PATH/unitv2-u-boot.img
 
+echo "Creating RTL8188FU driver"
+cd $BASE_PATH
+git clone --recursive $RTL8188FU_GIT_URL $TMP_PATH/rtl8188fu_linux
+cd $TMP_PATH/rtl8188fu_linux
+git checkout $RTL8188FU_GIT_COMMIT
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -C $LINUX_PATH M=$(pwd) modules
 
 echo "Creating boot image"
 cd $TMP_PATH
