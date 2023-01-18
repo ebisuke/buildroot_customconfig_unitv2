@@ -116,7 +116,8 @@ if [ -d "$SD_PATH" ]; then
   sudo cp -f $INITIAL_PATH/fs/etc/shadow etc/shadow
 
   echo "git clone supplimental drivers source"
-  sudo mkdir -p $SD_PATH/usr/src
+
+  sudo mkdir -p $SD_PATH/usr/src/
   cd $SD_PATH/usr/src
   sudo git clone --recursive $RTL8188FU_GIT_URL $SD_PATH/usr/src/rtl8188fu_linux
   cd $SD_PATH/usr/src/rtl8188fu_linux
@@ -129,6 +130,9 @@ if [ -d "$SD_PATH" ]; then
   cd $TMP_PATH/rtl8188fu_linux
   sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/
   sudo depmod -a -b $SD_PATH $LINUX_VERSION
+
+  sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/extra/
+  sudo cp -f $TMP_PATH/rtl8188fu_linux/rtl8188fu.ko $SD_PATH/lib/modules/$LINUX_VERSION/extra/
   echo "For RTL8188FU config"
   cd $BUILDROOT_UNITV2_PATH/br2unitv2/board/m5stack/unitv2/overlay/etc/modprobe.d
   sudo mkdir -p $SD_PATH/etc/modprobe.d
@@ -147,8 +151,7 @@ if [ -d "$SD_PATH" ]; then
   echo "Copy Extra files"
   sudo mkdir -p $SD_PATH/usr/share/extra
   cd $SD_PATH/usr/share/extra
-  sudo git clone --recursive https://github.com/NetworkConfiguration/dhcpcd
-  sudo
+
   echo "Syncing"
   cd $INITIAL_PATH
   sync
