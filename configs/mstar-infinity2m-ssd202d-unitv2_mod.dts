@@ -262,11 +262,11 @@
 
 					ubi@ec0000 {
 						label = "ubi";
-						reg = <0xec0000 0xed4000>;
+						reg = <0xec0000 0x14000>;
 					};
-					data@ec4000 {
+					data@ed4000 {
 						label = "data";
-						reg = <0xec4000 0x1f140000>;
+						reg = <0xed4000 0x1f12c000>;
 					};
 				};
 			};
