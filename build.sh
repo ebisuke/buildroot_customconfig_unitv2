@@ -84,7 +84,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- KSRC=$LINUX_PATH M=$(pwd) modul
 echo "Creating boot image"
 cd $TMP_PATH
 cp -f $LINUX_PATH/arch/arm/boot/zImage .
-cp -f $LINUX_PATH/arch/arm/boot/dts/mstar-infinity2m-ssd202d-unitv2.dtb .
+cp -f $INITIAL_PATH/configs/mstar-infinity2m-ssd202d-unitv2_mod.dtb .
 cp -f $INITIAL_PATH/configs/kernel.its .
 
 mkimage -f ./kernel.its ./gentoo-kernel.img

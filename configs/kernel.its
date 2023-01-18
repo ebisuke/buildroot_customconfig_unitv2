@@ -21,7 +21,7 @@
                         };
                 };
                 fdt-unitv2 {
-                        data = /incbin/("./mstar-infinity2m-ssd202d-unitv2.dtb");
+                        data = /incbin/("./mstar-infinity2m-ssd202d-unitv2_mod.dtb");
                         type = "flat_dt";
                         arch = "arm";
                         compression = "none";
