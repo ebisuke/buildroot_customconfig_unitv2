@@ -88,7 +88,7 @@ cp -f $INITIAL_PATH/configs/mstar-infinity2m-ssd202d-unitv2_mod.dtb .
 cp -f $INITIAL_PATH/configs/kernel.its .
 
 mkimage -f ./kernel.its ./gentoo-kernel.img
-cp -f  $INITIAL_PATH/configs/kernel.its $TMP_PATH/
+cp -f  $INITIAL_PATH/configs/gentoo-kernel.img $TMP_PATH/
 echo "Creating Flashing files"
 cd $TMP_PATH
 
