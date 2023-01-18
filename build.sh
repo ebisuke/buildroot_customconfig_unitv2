@@ -139,18 +139,25 @@ if [ -d "$SD_PATH" ]; then
   sudo cp -f rtl8188fu.conf $SD_PATH/etc/modprobe.d/
   cd $SD_PATH
 
+  echo "Copy kernel header files"
+  sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/kernel
+  cd $LINUX_PATH
+  sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_HDR_PATH=$SD_PATH/lib/modules/$LINUX_VERSION/kernel headers_install
   echo "Copy kernel source files"
   sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/build
-  sudo cp -arf $LINUX_PATH/. $SD_PATH/lib/modules/$LINUX_VERSION/build/
+  sudo cp -rf $LINUX_PATH/. $SD_PATH/lib/modules/$LINUX_VERSION/build
 
+  echo "Copy Extra files"
+  sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/extra
+  sudo cp -f $TMP_PATH/rtl8188fu_linux/rtl8188fu.ko $SD_PATH/lib/modules/$LINUX_VERSION/extra/
+
+  cd $SD_PATH
   echo "Copy kernel image"
   sudo cp -f $TMP_PATH/gentoo-kernel.img boot/
   echo "Copy wifi firmware and some stuffs"
   sudo cp -rf $BUILDROOT_PATH/output/target/lib/firmware $SD_PATH/lib/firmware
 
-  echo "Copy Extra files"
-  sudo mkdir -p $SD_PATH/usr/share/extra
-  cd $SD_PATH/usr/share/extra
+
 
   echo "Syncing"
   cd $INITIAL_PATH
