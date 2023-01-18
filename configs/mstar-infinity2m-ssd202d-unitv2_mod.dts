@@ -255,15 +255,6 @@
 					#address-cells = <0x01>;
 					#size-cells = <0x01>;
 
-					uboot-spl@200000 {
-						label = "uboot-spl";
-						reg = <0x200000 0x60000>;
-					};
-
-					ubi@ec0000 {
-						label = "ubi";
-						reg = <0xec0000 0x240000>;
-					};
 					data@1100000 {
 						label = "data";
 						reg = <0x1100000 0x1ef00000>;
