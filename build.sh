@@ -130,7 +130,7 @@ if [ -d "$SD_PATH" ]; then
   sudo mkdir -p $SD_PATH/lib/modules/$LINUX_VERSION/
   sudo depmod -a -b $SD_PATH $LINUX_VERSION
   echo "For RTL8188FU config"
-  cd %BUILDROOT_UNITV2_PATH/br2unitv2/board/m5stack/unitv2/overlay/etc/modprobe.d
+  cd $BUILDROOT_UNITV2_PATH/br2unitv2/board/m5stack/unitv2/overlay/etc/modprobe.d
   sudo mkdir -p $SD_PATH/etc/modprobe.d
   sudo cp -f rtl8188fu.conf $SD_PATH/etc/modprobe.d/
   cd $SD_PATH
