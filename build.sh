@@ -89,6 +89,7 @@ cp -f $INITIAL_PATH/configs/kernel.its .
 
 mkimage -f ./kernel.its ./gentoo-kernel.img
 cp -f  $INITIAL_PATH/configs/gentoo-kernel.img $TMP_PATH/
+cp -f  $INITIAL_PATH/configs/gentoo-kernel.img $OUTPUT_PATH/
 echo "Creating Flashing files"
 cd $TMP_PATH
 
